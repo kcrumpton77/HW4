@@ -2,7 +2,7 @@ class PlacesController < ApplicationController
   before_action :authenticate_user
 
   def index
-    @places = Place.all
+    @places = Place.where({ "user_id" => @current_user["id"] })
   end
 
   def show
@@ -16,6 +16,7 @@ class PlacesController < ApplicationController
   def create
     @place = Place.new
     @place["name"] = params["name"]
+    @place["user_id"] = @current_user["id"]
     @place.save
     redirect_to "/places"
   end
